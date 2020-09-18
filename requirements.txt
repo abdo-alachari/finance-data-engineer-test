@@ -1,0 +1,8 @@
+Flask
+numpy
+pandas 
+SQLAlchemy 
+psycopg2-binary
+xlrd
+openpyxl
+pycountry
