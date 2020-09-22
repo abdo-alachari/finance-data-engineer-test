@@ -57,7 +57,6 @@ result
 ```
 
 
-
 # Notes:
 * I've chosen Python as a programming language because it is the universal language of data guys 
 
@@ -65,10 +64,15 @@ result
 
 * All solutions are applicable  on large amounts of data: pandas module exists in spark libraries
 
-* the easiest way to implement a reconciliation: just a join between the bank statement and company transactions, reconciliation could be more complex to implement, I believe that's not the point of the test
-
 * I've made 3 API (daily, monthly, total), I could make only one, but on  a production environment one API could be overloaded
 
 * the service consumes data from a reconciliated table
 
+* the reconciliattion is made as below
 
+    - first, unify the date format for both sources
+    - join the source by transaction id UUID and date 
+    - calculate the score of  similarity between description ( using Levenshtein ratio)
+    - calculate the difference between bank statement amount and company amount
+    - calculate the allowed error for each record
+    - filter data by allowed error and the chosen score

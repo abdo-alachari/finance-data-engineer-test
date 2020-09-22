@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 import psycopg2, json
 
 
-connection = create_engine('postgresql://postgres:pwd@172.22.0.2:5432/postgres')
+connection = create_engine('postgresql://postgres:pwd@localhost:5432/postgres')
 
 def monthly_report(user_id):
     json_data   = dict()
@@ -29,12 +29,13 @@ def daily_report(user_id):
     json_data   = dict()
     daily_query = """
     SELECT transaction_type,
-           transaction_date::date::text AS transaction_day,
+           transaction_date AS transaction_day,
            Sum(amount) as daily_amount
     FROM   transactions.reconciliated_transactions
     WHERE  uuid = '{}' 
     GROUP  BY transaction_type,transaction_day
     """.format(user_id)
+
 
     data = pd.read_sql(daily_query, connection)
 
